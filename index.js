@@ -17,8 +17,11 @@ let age = ''
 const ageMiddleware = (req, res, next) => {
   age = req.query.age
 
-  if (age.length === 0) return res.redirect('/')
-  else return next()
+  if (age.length === 0) {
+    return res.redirect('/')
+  }
+
+  return next()
 }
 
 app.get('/', (req, res) => {
@@ -27,10 +30,8 @@ app.get('/', (req, res) => {
 
 app.post('/check', (req, res) => {
   age = req.body.age
-  let viewByAge = ''
 
-  if (age >= 18) viewByAge = '/major'
-  else viewByAge = '/minor'
+  let viewByAge = age >= 18 ? '/major' : '/minor'
 
   return res.redirect(`${viewByAge}?age=${age}`)
 })
